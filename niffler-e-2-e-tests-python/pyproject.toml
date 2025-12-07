@@ -1,0 +1,30 @@
+[project]
+name = "niffler-e-2-e-tests-python"
+version = "0.1.0"
+description = "tests for Niffler app"
+authors = [
+    {name = "Matyushkina Kseniya"}
+]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "playwright (>=1.56.0,<2.0.0)",
+    "pytest (>=7.0.0,<9.0.0)",
+    "pytest-playwright (>=0.7.1,<0.8.0)",
+    "python-dotenv (>=1.2.1,<2.0.0)",
+    "faker (>=38.0.0,<39.0.0)",
+    "pydantic (>=2.12.4,<3.0.0)"
+]
+[tool.pytest.ini_options]
+python_files = [
+    "*_tests.py",
+    "test_*.py"
+]
+addopts = [
+    "-v",
+    "-s"
+]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
