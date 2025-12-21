@@ -6,3 +6,4 @@ class Envs(BaseModel):
     auth_url: str
     niffler_username: str
     niffler_password: str
+    gateway_url: str

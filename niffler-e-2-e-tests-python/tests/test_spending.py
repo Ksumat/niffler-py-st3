@@ -1,12 +1,16 @@
+from marks import Pages, TestData
 from tools.fakers import fake
 
 
 class TestSpendPage:
+    TEST_CATEGORY = "school"
 
+    @Pages.open_main_page
     def test_spending_title_statistic_exists(self, spending_page):
         spending_page.open_spending_page()
         spending_page.check_spending_page_titles('Statistics')
 
+    @Pages.open_main_page
     def test_create_new_spending(self, spending_page):
         amount = fake.integer()
         category = fake.word()
@@ -15,6 +19,7 @@ class TestSpendPage:
         spending_page.create_spend(amount, category, description)
         spending_page.check_spending_exists(category, amount)
 
+    @Pages.open_main_page
     def test_delete_spending(self, spending_page):
         amount = fake.integer()
         category = fake.word()
@@ -23,3 +28,46 @@ class TestSpendPage:
         spending_page.create_spend(amount, category, description)
         spending_page.delete_spend(category)
         spending_page.action_should_have_signal_text("Spendings succesfully delete")
+
+    @Pages.open_spending_page
+    @TestData.category(TEST_CATEGORY)
+    @TestData.spends({
+        "amount": "108.51",
+        "description": "QA.GURU Python Advanced 1",
+        "category": {
+            "name": TEST_CATEGORY
+        },
+        "spendDate": "2024-08-08T18:39:27.955Z",
+        "currency": "RUB"
+    })
+    def test_spending_should_be_deleted_after_table_action(self, category, spends, spending_page):
+        spending_page.check_category(spends, category)
+
+    @Pages.open_spending_page
+    @TestData.category(TEST_CATEGORY)
+    @TestData.spends({
+        "amount": "108.51",
+        "description": "QA.GURU Python Advanced 1",
+        "category": {
+            "name": TEST_CATEGORY
+        },
+        "spendDate": "2024-08-08T18:39:27.955Z",
+        "currency": "RUB"
+    })
+    def test_delete_all_spending(self, spending_page, category):
+        spending_page.check_delete_spending("Spendings succesfully deleted")
+
+    @Pages.open_spending_page
+    @TestData.category(TEST_CATEGORY)
+    @TestData.spends({
+        "amount": "108.51",
+        "description": "QA.GURU Python Advanced 1",
+        "category": {
+            "name": TEST_CATEGORY
+        },
+        "spendDate": "2024-08-08T18:39:27.955Z",
+        "currency": "RUB"
+    })
+    def test_edit_spending_currency_usd(self, spending_page, category):
+        spending_page.edit_spending_currency("USD")
+        spending_page.action_should_have_signal_text("Spending is edited successfully")

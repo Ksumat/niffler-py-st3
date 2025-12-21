@@ -18,6 +18,13 @@ class SpendingPage(BasePage):
         self.delete_button_approve = page.locator("//div[@role='dialog']//button[contains(text(), 'Delete')]")
         self.spending = page.locator('#spendings')
         self.spending_table_cells = page.locator('.table.spendings-table td')
+        self.spendings_table = page.locator("[id='spendings']")
+        self.checkbox_for_all = page.locator('thead input[type="checkbox"]')
+        self.description_successful_delete_spend = page.locator('//div[.="Spendings succesfully deleted"]').first
+        self.edit_spending = page.locator('button[type=button][aria-label="Edit spending"]')
+        self.currency = page.locator('#currency')
+        self.select_currency = lambda currency: page.locator(f'//span[.="{currency}"]')
+        self.button_save = page.locator('#save')
 
     def open_spending_page(self) -> None:
         self.goto(self.base_url)
@@ -49,3 +56,21 @@ class SpendingPage(BasePage):
 
     def action_should_have_signal_text(self, text: str) -> None:
         expect(self.page.get_by_text(text)).to_be_visible()
+
+    def check_category(self, spends, category):
+        expect(self.page.get_by_text('History of Spendings')).to_be_visible()
+        expect(self.spendings_table).to_contain_text(str(spends['amount']))
+        expect(self.spendings_table).to_contain_text(category)
+        expect(self.spendings_table).to_contain_text(spends['description'])
+
+    def check_delete_spending(self, text: str):
+        self.checkbox_for_all.click()
+        self.delete_button.click()
+        self.delete_button_approve.click()
+        expect(self.description_successful_delete_spend).to_contain_text(text)
+
+    def edit_spending_currency(self, currency: str):
+        self.edit_spending.click()
+        self.currency.click()
+        self.select_currency(currency).click()
+        self.button_save.click()
