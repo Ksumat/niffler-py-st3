@@ -4,10 +4,13 @@ from models.config import Envs
 import pytest
 from dotenv import load_dotenv
 from playwright.sync_api import Page, Browser, sync_playwright
+
+from models.spend import CategoryAdd
 from pages.auth_page import LoginPage
 from pages.profile_page import ProfilePage
 from pages.spending_page import SpendingPage
 from clients.spends_client import SpendsHttpClient
+from database.spend_db import SpendDb
 
 
 @pytest.fixture(scope="session")
@@ -17,7 +20,8 @@ def envs() -> Envs:
                 auth_url=os.getenv("AUTH_URL"),
                 niffler_username=os.getenv('NIFFLER_USER'),
                 niffler_password=os.getenv('NIFFLER_PASSWORD'),
-                gateway_url=os.getenv('GATEWAY_URL')
+                gateway_url=os.getenv('GATEWAY_URL'),
+                spend_db_url=os.getenv("SPEND_DB_URL")
                 )
 
 
@@ -87,23 +91,28 @@ def spends_client(get_token_from_user_state, envs) -> SpendsHttpClient:
     return SpendsHttpClient(envs.gateway_url, get_token_from_user_state)
 
 
+@pytest.fixture(scope="function")
+def clean_spendings_setup(spends_client):
+    spends_client.delete_all_spendings()
+    yield
+    spends_client.delete_all_spendings()
+
+
 @pytest.fixture(params=[])
-def category(request, spends_client):
+def category(request, spends_client, spend_db, clean_category_setup):
     category_name = request.param
-    current_categories = spends_client.get_categories()
-    category_names = [category["name"] for category in current_categories]
-    if category_name not in category_names:
-        spends_client.add_category(category_name)
-    return category_name
+    category = spends_client.add_category(CategoryAdd(name=category_name))
+    yield category.name
+    spend_db.delete_category(category.id)
 
 
 @pytest.fixture(params=[])
-def spends(request, spends_client: SpendsHttpClient):
+def spends(request, spends_client, clean_spendings_setup, category):
     spend = spends_client.add_spends(request.param)
     yield spend
     all_spends = spends_client.get_spends()
-    if spend["id"] in [spend["id"] for spend in all_spends]:
-        spends_client.remove_spends([spend["id"]])
+    if spend.id in [s.id for s in all_spends]:
+        spends_client.remove_spends([spend.id])
 
 
 @pytest.fixture()
@@ -124,3 +133,19 @@ def open_login_page(login_page):
 @pytest.fixture()
 def open_profile_page(profile_page):
     profile_page.open_profile_page()
+
+
+@pytest.fixture(scope="session")
+def spend_db(envs) -> SpendDb:
+    return SpendDb(envs.spend_db_url)
+
+
+@pytest.fixture(scope="function")
+def clean_category_setup(spend_db, envs):
+    all_categories = spend_db.get_user_categories(envs.niffler_username)
+    for category in all_categories:
+        spend_db.delete_category(category.id)
+    yield
+    all_categories = spend_db.get_user_categories(envs.niffler_username)
+    for category in all_categories:
+        spend_db.delete_category(category.id)

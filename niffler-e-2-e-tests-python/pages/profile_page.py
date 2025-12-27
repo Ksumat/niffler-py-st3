@@ -40,10 +40,11 @@ class ProfilePage(BasePage):
         self.name.clear()
         self.name.fill(name)
         self.submit_button.click()
+        self.page.wait_for_load_state('networkidle')
 
     def check_successful_adding_name(self, name):
         expect(self.alert).to_contain_text(f"Profile successfully updated")
-        expect(self.name).to_have_value(f"{name}")
+        expect(self.name).to_have_value(name)
 
     def check_profile_title(self, title: str):
         expect(self.profile_title).to_contain_text(title)

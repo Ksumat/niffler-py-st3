@@ -28,6 +28,7 @@ class SpendingPage(BasePage):
 
     def open_spending_page(self) -> None:
         self.goto(self.base_url)
+        self.wait_for_load()
 
     def check_spending_page_titles(self, text: str):
         expect(self.statistic_title).to_contain_text(text)
@@ -59,9 +60,9 @@ class SpendingPage(BasePage):
 
     def check_category(self, spends, category):
         expect(self.page.get_by_text('History of Spendings')).to_be_visible()
-        expect(self.spendings_table).to_contain_text(str(spends['amount']))
+        expect(self.spendings_table).to_contain_text(str(spends.amount))
         expect(self.spendings_table).to_contain_text(category)
-        expect(self.spendings_table).to_contain_text(spends['description'])
+        expect(self.spendings_table).to_contain_text(spends.description)
 
     def check_delete_spending(self, text: str):
         self.checkbox_for_all.click()
