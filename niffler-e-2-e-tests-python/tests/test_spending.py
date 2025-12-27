@@ -71,3 +71,23 @@ class TestSpendPage:
     def test_edit_spending_currency_usd(self, spending_page, category):
         spending_page.edit_spending_currency("USD")
         spending_page.action_should_have_signal_text("Spending is edited successfully")
+
+    @Pages.open_spending_page
+    @TestData.category(TEST_CATEGORY)
+    @TestData.spends({
+        "amount": 101.1,
+        "description": "test_description",
+        "category": {
+            "name": TEST_CATEGORY
+        },
+        "spendDate": "2025-08-08T18:39:27.955Z",
+        "currency": "RUB"
+    })
+    def test_add_new_spending(self, envs, spending_page, spend_db, spends, category):
+        added_spend_in_db = spend_db.get_spend_in_db(envs.niffler_username)
+
+        assert added_spend_in_db[0].amount == spends.amount
+        assert added_spend_in_db[0].description == spends.description
+        assert added_spend_in_db[0].currency == spends.currency
+
+        spending_page.check_spending_exists(self.TEST_CATEGORY, spends.amount)

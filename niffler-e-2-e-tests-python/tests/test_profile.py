@@ -5,6 +5,7 @@ TEST_CATEGORY = "school"
 
 
 class TestCategories:
+    TEST_CATEGORY_BD = "db_category"
 
     @Pages.open_profile_page
     def test_create_category(self, profile_page):
@@ -33,6 +34,25 @@ class TestCategories:
         profile_page.edit_first_category_name(new_name)
         profile_page.check_category_name(new_name, old_name)
 
+    @TestData.category(TEST_CATEGORY_BD)
+    def test_add_category_and_check_db(self, envs, category, spend_db):
+        user_categories = spend_db.get_user_categories(envs.niffler_username)
+        user_category_names = [category.name for category in user_categories]
+
+        assert len(user_categories) > 0, "Категорий у этого пользовтаеля нет"
+        assert category in user_category_names
+
+    def test_delete_category_and_check_db(self, envs, spend_db):
+        new_category = spend_db.add_user_category(envs.niffler_username, self.TEST_CATEGORY_BD)
+
+        search_before_delete = spend_db.get_category_by_id(new_category.id)
+        assert search_before_delete.name == self.TEST_CATEGORY_BD
+
+        spend_db.delete_category(new_category.id)
+
+        search_after_delete = spend_db.get_category_by_name(envs.niffler_username, new_category.name)
+        assert search_after_delete is None
+
 
 class TestProfileInfo:
 
@@ -51,6 +71,3 @@ class TestProfileInfo:
         profile_page.add_profile_name_if_empty()
         profile_page.add_user_name("")
         profile_page.check_successful_adding_name("")
-
-
-

@@ -7,3 +7,4 @@ class Envs(BaseModel):
     niffler_username: str
     niffler_password: str
     gateway_url: str
+    spend_db_url: str
