@@ -1,5 +1,6 @@
 from playwright.sync_api import Page, expect
 from pages.base_page import BasePage
+import allure
 
 
 class SpendingPage(BasePage):
@@ -27,51 +28,59 @@ class SpendingPage(BasePage):
         self.button_save = page.locator('#save')
 
     def open_spending_page(self) -> None:
-        self.goto(self.base_url)
-        self.wait_for_load()
+        with allure.step('Перейти к странице трат'):
+            self.goto(self.base_url)
+            self.wait_for_load()
 
     def check_spending_page_titles(self, text: str):
-        expect(self.statistic_title).to_contain_text(text)
+        with allure.step('Проверка огавления страницы трат'):
+            expect(self.statistic_title).to_contain_text(text)
 
     def create_spend(self, amount: int, test_category: str, description: str) -> None:
-        self.new_spend_button.click()
-        expect(self.title_new_spending_list).to_contain_text('Add new spending')
-        self.amount.fill(str(amount))
-        self.category.fill(f'{test_category}')
-        self.description.fill(f'{description}')
-        self.button_add_spending.click()
+        with allure.step('Создание траты'):
+            self.new_spend_button.click()
+            expect(self.title_new_spending_list).to_contain_text('Add new spending')
+            self.amount.fill(str(amount))
+            self.category.fill(f'{test_category}')
+            self.description.fill(f'{description}')
+            self.button_add_spending.click()
 
     def check_spending_exists(self, category: str, amount: str):
-        expected_text = f"{category} {amount}"
-        cells = self.spending_table_cells
-        count = cells.count()
-        for i in range(count):
-            cell_text = cells.nth(i).text_content().strip()
-            if expected_text in cell_text:
-                print(f"Найдена ячейка с текстом: {cell_text}")
+        with allure.step('Проверка существования траты'):
+            expected_text = f"{category} {amount}"
+            cells = self.spending_table_cells
+            count = cells.count()
+            for i in range(count):
+                cell_text = cells.nth(i).text_content().strip()
+                if expected_text in cell_text:
+                    print(f"Найдена ячейка с текстом: {cell_text}")
 
     def delete_spend(self, name_category: str) -> None:
-        self.category_name(name_category).click()
-        self.delete_button.click()
-        self.delete_button_approve.click()
+        with allure.step('Удаление траты'):
+            self.category_name(name_category).click()
+            self.delete_button.click()
+            self.delete_button_approve.click()
 
     def action_should_have_signal_text(self, text: str) -> None:
-        expect(self.page.get_by_text(text)).to_be_visible()
+        with allure.step('Ожидание уведомления'):
+            expect(self.page.get_by_text(text)).to_be_visible()
 
-    def check_category(self, spends, category):
-        expect(self.page.get_by_text('History of Spendings')).to_be_visible()
-        expect(self.spendings_table).to_contain_text(str(spends.amount))
-        expect(self.spendings_table).to_contain_text(category)
-        expect(self.spendings_table).to_contain_text(spends.description)
+    # def check_category(self, spends, category):
+    #     expect(self.page.get_by_text('History of Spendings')).to_be_visible()
+    #     expect(self.spendings_table).to_contain_text(str(spends.amount))
+    #     expect(self.spendings_table).to_contain_text(category)
+    #     expect(self.spendings_table).to_contain_text(spends.description)
 
     def check_delete_spending(self, text: str):
-        self.checkbox_for_all.click()
-        self.delete_button.click()
-        self.delete_button_approve.click()
-        expect(self.description_successful_delete_spend).to_contain_text(text)
+        with allure.step('Проверка удаления траты'):
+            self.checkbox_for_all.click()
+            self.delete_button.click()
+            self.delete_button_approve.click()
+            expect(self.description_successful_delete_spend).to_contain_text(text)
 
     def edit_spending_currency(self, currency: str):
-        self.edit_spending.click()
-        self.currency.click()
-        self.select_currency(currency).click()
-        self.button_save.click()
+        with allure.step('Изменение валюты траты'):
+            self.edit_spending.click()
+            self.currency.click()
+            self.select_currency(currency).click()
+            self.button_save.click()
