@@ -1,22 +1,25 @@
 import json
 import os
+from random import choice
+
+from clients.oauth_client import OAuthClient
 from models.config import Envs
 import pytest
 from dotenv import load_dotenv
-from playwright.sync_api import Page, Browser, sync_playwright
+from playwright.sync_api import Page, Browser
 
-from models.spend import CategoryAdd
+from models.enums import CategoryEnum
+from models.spend import SpendAdd, SpendEdit
 from pages.auth_page import LoginPage
 from pages.profile_page import ProfilePage
 from pages.spending_page import SpendingPage
 from clients.spends_client import SpendsHttpClient
 from database.spend_db import SpendDb
 
-import allure
 from allure_commons.reporter import AllureReporter
-from allure_commons.types import AttachmentType
 from allure_pytest.listener import AllureListener
-from pytest import Item, FixtureDef, FixtureRequest
+from pytest import FixtureDef, FixtureRequest
+from tools.fakers import fake
 
 
 @pytest.fixture(scope="session")
@@ -93,8 +96,13 @@ def get_token_from_user_state(setup_auth_state):
 
 
 @pytest.fixture(scope="session")
-def spends_client(get_token_from_user_state, envs) -> SpendsHttpClient:
-    return SpendsHttpClient(envs.gateway_url, get_token_from_user_state)
+def auth_token(envs: Envs):
+    return OAuthClient(envs).get_token(envs.niffler_username, envs.niffler_password)
+
+
+@pytest.fixture(scope="function")
+def spends_client(envs, auth_token) -> SpendsHttpClient:
+    return SpendsHttpClient(envs, auth_token)
 
 
 @pytest.fixture(scope="function")
@@ -107,7 +115,7 @@ def clean_spendings_setup(spends_client):
 @pytest.fixture(params=[])
 def category(request, spends_client, spend_db, clean_category_setup):
     category_name = request.param
-    category = spends_client.add_category(CategoryAdd(name=category_name))
+    category = spends_client.add_category(name=category_name)
     yield category.name
     spend_db.delete_category(category.id)
 
@@ -169,3 +177,107 @@ def pytest_fixture_setup(fixturedef: FixtureDef, request: FixtureRequest):
     item = logger.get_last_item()
     scope_letter = fixturedef.scope[0].upper()
     item.name = f"[{scope_letter}] " + " ".join(fixturedef.argname.split("_")).title()
+
+
+@pytest.fixture(scope="function")
+def spend_data_for_add():
+    return SpendAdd(
+        amount=fake.float_amount(min_value=1.0, max_value=10000.0),
+        description=fake.sentence()[:40],
+        category={"name": fake.word().title()},
+        currency=fake.currency(),
+        spendDate=fake.past_datetime(days=1)
+    )
+
+
+@pytest.fixture
+def delete_category_with_spendings(request, envs, spends_client, spend_data_for_add, spend_db):
+    def teardown():
+        spends = spends_client.get_spends()
+        print('spends', spends)
+        for spend in spends:
+            if spend.category.name == spend_data_for_add.category.name:
+                spends_client.remove_spends(ids=[spend.id])
+        category_in_db = spend_db.get_category_by_name(envs.niffler_username, spend_data_for_add.category.name)
+        spend_db.delete_category(category_in_db.id)
+
+    request.addfinalizer(teardown)
+
+
+@pytest.fixture
+def delete_category_with_edited_spendings(request, envs, spends_client, spend_data_for_edit, spend_db):
+    def teardown():
+        spends = spends_client.get_spends()
+        for spend in spends:
+            if spend.category.name == spend_data_for_edit.category.name:
+                spends_client.remove_spends(ids=[spend.id])
+        category_in_db = spend_db.get_category_by_name(envs.niffler_username, spend_data_for_edit.category.name)
+        spend_db.delete_category(category_in_db.id)
+
+    request.addfinalizer(teardown)
+
+
+@pytest.fixture(scope="function")
+def spend_data_for_edit():
+    return SpendEdit(
+        amount=fake.float_amount(min_value=1.0, max_value=10000.0),
+        description=fake.sentence()[:40],
+        category={"name": fake.word().title()},
+        currency=fake.currency(),
+        spendDate=fake.past_datetime(days=1)
+    )
+
+
+@pytest.fixture
+def currency():
+    currencies_list_symbols = ["₸", "₽", "€", "$"]
+    return choice(currencies_list_symbols)
+
+
+@pytest.fixture(scope="function")
+def add_spend(spends_client, spend_data_for_add, currency, delete_category_with_spendings):
+    spend_data = {
+        "amount": spend_data_for_add.amount,
+        "description": spend_data_for_add.description,
+        "category": spend_data_for_add.category,
+        "spendDate": spend_data_for_add.spendDate,
+        "currency": spend_data_for_add.currency
+    }
+    spend = spends_client.add_spends(spend_data)
+    return spend
+
+
+@pytest.fixture
+def category_value():
+    return fake.word()
+
+
+@pytest.fixture
+def create_category(request, spends_client, spend_db, category_value):
+    category = spends_client.add_category(name=category_value)
+
+    def teardown():
+        spend_db.delete_category(category.id)
+
+    request.addfinalizer(teardown)
+    return category
+
+
+@pytest.fixture
+def delete_category(request, envs, spend_db, category_value):
+    def teardown():
+        category_in_db = spend_db.get_category_by_name(envs.niffler_username, category_value)
+        spend_db.delete_category(category_in_db.id)
+
+    request.addfinalizer(teardown)
+
+
+@pytest.fixture
+def create_second_category(request, spends_client, spend_db):
+    category = spends_client.add_category(name=CategoryEnum.CATEGORY)
+
+    def teardown():
+        spend_db.delete_category(category.id)
+
+    request.addfinalizer(teardown)
+    return category

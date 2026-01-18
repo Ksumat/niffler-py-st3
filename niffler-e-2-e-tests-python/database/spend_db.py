@@ -4,7 +4,8 @@ from typing import Sequence
 from sqlalchemy import create_engine, Engine, event
 from sqlmodel import Session, select
 
-from models.spend import Category, Spend
+from models.spend import SpendBd
+from models.category import Category
 import allure
 from allure_commons.types import AttachmentType
 
@@ -69,6 +70,6 @@ class SpendDb:
     def get_spend_in_db(self, username: str):
         with allure.step('Получения списка трат БД'):
             with Session(self.engine) as session:
-                spend = select(Spend).where(Spend.username == username)
+                spend = select(SpendBd).where(SpendBd.username == username)
                 result = session.exec(spend).all()
                 return result
