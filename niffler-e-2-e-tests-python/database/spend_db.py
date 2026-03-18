@@ -7,22 +7,15 @@ from sqlmodel import Session, select
 from models.spend import SpendBd
 from models.category import Category
 import allure
-from allure_commons.types import AttachmentType
+from tools.allure_helpers import attach_sql
 
 
 class SpendDb:
-
     engine: Engine
 
     def __init__(self, db_url: str):
         self.engine = create_engine(db_url)
-        event.listen(self.engine, "do_execute", fn=self.attach_sql)
-
-    @staticmethod
-    def attach_sql(cursor, statement, parameters, context):
-        statement_with_params = statement % parameters
-        name = statement.split(" ")[0] + " " + context.engine.url.database
-        allure.attach(statement_with_params, name=name, attachment_type=AttachmentType.TEXT)
+        event.listen(self.engine, "do_execute", fn=attach_sql)
 
     def get_user_categories(self, username: str) -> Sequence[Category]:
         with allure.step('Получение категорий пользователя БД'):

@@ -3,6 +3,7 @@ import os
 from random import choice
 
 from clients.oauth_client import OAuthClient
+from database.userdata_db import UserdataDb
 from models.config import Envs
 import pytest
 from dotenv import load_dotenv
@@ -20,6 +21,7 @@ from allure_commons.reporter import AllureReporter
 from allure_pytest.listener import AllureListener
 from pytest import FixtureDef, FixtureRequest
 from tools.fakers import fake
+from clients.kafka_client import KafkaClient
 
 
 @pytest.fixture(scope="session")
@@ -30,16 +32,10 @@ def envs() -> Envs:
                 niffler_username=os.getenv('NIFFLER_USER'),
                 niffler_password=os.getenv('NIFFLER_PASSWORD'),
                 gateway_url=os.getenv('GATEWAY_URL'),
-                spend_db_url=os.getenv("SPEND_DB_URL")
+                spend_db_url=os.getenv("SPEND_DB_URL"),
+                kafka_address=os.getenv("KAFKA_ADDRESS"),
+                userdata_db_url=os.getenv("USER_DB_URL")
                 )
-
-
-# @pytest.fixture(scope="session")
-# def browser() -> Browser:
-#     with sync_playwright() as p:
-#         browser = p.chromium.launch(headless=False, slow_mo=1000)  # для удобства отладки
-#         yield browser
-#         browser.close()
 
 
 @pytest.fixture
@@ -98,6 +94,11 @@ def get_token_from_user_state(setup_auth_state):
 @pytest.fixture(scope="session")
 def auth_token(envs: Envs):
     return OAuthClient(envs).get_token(envs.niffler_username, envs.niffler_password)
+
+
+@pytest.fixture(scope="session")
+def auth_client(envs: Envs) -> OAuthClient:
+    return OAuthClient(envs)
 
 
 @pytest.fixture(scope="function")
@@ -170,13 +171,13 @@ def allure_logger(config) -> AllureReporter:
     return listener.allure_logger
 
 
-@pytest.hookimpl(hookwrapper=True, trylast=True)
-def pytest_fixture_setup(fixturedef: FixtureDef, request: FixtureRequest):
-    yield
-    logger = allure_logger(request.config)
-    item = logger.get_last_item()
-    scope_letter = fixturedef.scope[0].upper()
-    item.name = f"[{scope_letter}] " + " ".join(fixturedef.argname.split("_")).title()
+# @pytest.hookimpl(hookwrapper=True, trylast=True)
+# def pytest_fixture_setup(fixturedef: FixtureDef, request: FixtureRequest):
+#     yield
+#     logger = allure_logger(request.config)
+#     item = logger.get_last_item()
+#     scope_letter = fixturedef.scope[0].upper()
+#     item.name = f"[{scope_letter}] " + " ".join(fixturedef.argname.split("_")).title()
 
 
 @pytest.fixture(scope="function")
@@ -194,7 +195,6 @@ def spend_data_for_add():
 def delete_category_with_spendings(request, envs, spends_client, spend_data_for_add, spend_db):
     def teardown():
         spends = spends_client.get_spends()
-        print('spends', spends)
         for spend in spends:
             if spend.category.name == spend_data_for_add.category.name:
                 spends_client.remove_spends(ids=[spend.id])
@@ -281,3 +281,15 @@ def create_second_category(request, spends_client, spend_db):
 
     request.addfinalizer(teardown)
     return category
+
+
+@pytest.fixture(scope="session")
+def kafka(envs: Envs):
+    """Взаимодействие с Kafka"""
+    with KafkaClient(envs) as k:
+        yield k
+
+
+@pytest.fixture(scope="session")
+def user_db(envs: Envs) -> UserdataDb:
+    return UserdataDb(envs)
