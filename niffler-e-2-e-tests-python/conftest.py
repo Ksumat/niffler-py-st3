@@ -19,9 +19,9 @@ from database.spend_db import SpendDb
 
 from allure_commons.reporter import AllureReporter
 from allure_pytest.listener import AllureListener
-from pytest import FixtureDef, FixtureRequest
 from tools.fakers import fake
 from clients.kafka_client import KafkaClient
+from tools.sessions import SoapSession
 
 
 @pytest.fixture(scope="session")
@@ -34,7 +34,8 @@ def envs() -> Envs:
                 gateway_url=os.getenv('GATEWAY_URL'),
                 spend_db_url=os.getenv("SPEND_DB_URL"),
                 kafka_address=os.getenv("KAFKA_ADDRESS"),
-                userdata_db_url=os.getenv("USER_DB_URL")
+                userdata_db_url=os.getenv("USER_DB_URL"),
+                soap_url=os.getenv("SOAP_URL")
                 )
 
 
@@ -293,3 +294,17 @@ def kafka(envs: Envs):
 @pytest.fixture(scope="session")
 def user_db(envs: Envs) -> UserdataDb:
     return UserdataDb(envs)
+
+
+@pytest.fixture(scope='module')
+def soap_session(envs):
+    session = SoapSession(soap_url=envs.soap_url)
+    return session
+
+
+@pytest.fixture(scope="session")
+def create_test_user_before_run(auth_client, envs):
+    try:
+        auth_client.register(username=envs.niffler_username, password=envs.niffler_password)
+    except Exception as err:
+        print(f"User exists: {err}")

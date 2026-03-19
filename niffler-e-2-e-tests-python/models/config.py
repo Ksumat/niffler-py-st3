@@ -10,3 +10,4 @@ class Envs(BaseModel):
     spend_db_url: str
     kafka_address: str
     userdata_db_url: str
+    soap_url: str
