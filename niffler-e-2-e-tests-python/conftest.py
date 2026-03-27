@@ -1,14 +1,14 @@
 import json
 import os
-from random import choice
+import grpc
+import pytest
 
+from random import choice
 from clients.oauth_client import OAuthClient
 from database.userdata_db import UserdataDb
 from models.config import Envs
-import pytest
 from dotenv import load_dotenv
 from playwright.sync_api import Page, Browser
-
 from models.enums import CategoryEnum
 from models.spend import SpendAdd, SpendEdit
 from pages.auth_page import LoginPage
@@ -16,12 +16,21 @@ from pages.profile_page import ProfilePage
 from pages.spending_page import SpendingPage
 from clients.spends_client import SpendsHttpClient
 from database.spend_db import SpendDb
-
 from allure_commons.reporter import AllureReporter
 from allure_pytest.listener import AllureListener
 from tools.fakers import fake
 from clients.kafka_client import KafkaClient
 from tools.sessions import SoapSession
+from internal.pb.niffler_currency_pb2_pbreflect import NifflerCurrencyServiceClient
+from internal.pb.grpc.interceptors.allure import AllureInterceptor
+from internal.pb.grpc.interceptors.logging import LoggingInterceptor
+from settings.settings import Settings
+
+
+INTERCEPTORS = [
+    LoggingInterceptor(),
+    AllureInterceptor(),
+]
 
 
 @pytest.fixture(scope="session")
@@ -35,7 +44,8 @@ def envs() -> Envs:
                 spend_db_url=os.getenv("SPEND_DB_URL"),
                 kafka_address=os.getenv("KAFKA_ADDRESS"),
                 userdata_db_url=os.getenv("USER_DB_URL"),
-                soap_url=os.getenv("SOAP_URL")
+                soap_url=os.getenv("SOAP_URL"),
+                grpc_port=os.getenv("GRPC_PORT")
                 )
 
 
@@ -302,9 +312,29 @@ def soap_session(envs):
     return session
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="session", autouse=True)
 def create_test_user_before_run(auth_client, envs):
     try:
         auth_client.register(username=envs.niffler_username, password=envs.niffler_password)
     except Exception as err:
         print(f"User exists: {err}")
+
+
+@pytest.fixture(scope="session")
+def settings() -> Settings:
+    """ Fixture for settings """
+    return Settings()
+
+
+def pytest_addoption(parser: pytest.Parser) -> None:
+    parser.addoption("--mock", action="store_true", default=False)
+
+
+@pytest.fixture(scope="session")
+def grpc_client(settings: Settings, request: pytest.FixtureRequest) -> NifflerCurrencyServiceClient:
+    host = settings.currency_service_host
+    if request.config.getoption("--mock"):
+        host = settings.wiremock_host
+    channel = grpc.insecure_channel(host)
+    intercept_channel = grpc.intercept_channel(channel, *INTERCEPTORS)
+    return NifflerCurrencyServiceClient(intercept_channel)
