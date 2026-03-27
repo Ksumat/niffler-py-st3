@@ -7,7 +7,7 @@ from internal.pb.niffler_currency_pb2 import CalculateRequest, CurrencyValues
 
 
 @allure.story('Конвертер валют')
-@allure.feature('grpc')
+@allure.feature('GRPC')
 class TestRate:
 
     @allure.title('Конвертация EUR в RUB')

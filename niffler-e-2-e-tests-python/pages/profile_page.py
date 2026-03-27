@@ -3,6 +3,7 @@ from pages.base_page import BasePage
 from tools.fakers import fake
 import allure
 
+
 class ProfilePage(BasePage):
     PATH = '/profile'
 
@@ -79,4 +80,5 @@ class ProfilePage(BasePage):
         with allure.step('Проверка названия категории'):
             expect(self.category_name.first).to_have_text(new_name)
             self.edit_first_category_name(old_name)
+            self.page.reload()
             expect(self.category_name.first).to_have_text(old_name)
