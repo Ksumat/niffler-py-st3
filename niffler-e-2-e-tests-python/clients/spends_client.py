@@ -1,73 +1,72 @@
 import requests
-from urllib.parse import urljoin
-from models.spend import Category, Spend, SpendAdd, CategoryAdd
-import allure
-from allure_commons.types import AttachmentType
-from requests import Response
-from requests_toolbelt.utils.dump import dump_response
+from allure import step
+from models.category import Category
+from models.spend import Spend, SpendAdd, SpendEdit
+from tools.sessions import BaseSession
 
 
 class SpendsHttpClient:
     session: requests.Session
     base_url: str
 
-    def __init__(self, base_url: str, token: str):
-        self.base_url = base_url
-        self.session = requests.Session()
+    def __init__(self, envs, token: str):
+        self.base_url = envs.gateway_url
+        self.session = BaseSession(base_url=self.base_url)
         self.session.headers.update({
-            "Accept": "application/json",
-            "Authorization": f"Bearer {token}",
-            "Content-Type": "application/json",
+            'Accept': 'application/json',
+            'Authorization': f'Bearer {token}',
+            'Content-Type': 'application/json'
         })
 
-    @staticmethod
-    def attach_response(response: Response, *args, **kwargs):
-        attachment_name = response.request.method + " " + response.request.url
-        allure.attach(dump_response(response), attachment_name, attachment_type=AttachmentType.TEXT)
+    @step("Отправить запрос на список категорий")
+    def get_categories(self) -> list[Category]:
+        response = self.session.get("/api/categories/all")
+        return [Category.model_validate(item) for item in response.json()]
 
-    def get_categories(self) -> list[CategoryAdd]:
-        with allure.step('Получение категорий API'):
-            response = self.session.get(urljoin(self.base_url, '/api/categories/all'))
-            response.raise_for_status()
-            return [CategoryAdd.model_validate(item) for item in response.json()]
+    @step("Отправить запрос на создание категории")
+    def add_category(self, name) -> Category:
+        response = self.session.post("/api/categories/add", json={
+            "name": name
+        })
+        return Category.model_validate(response.json())
 
-    def add_category(self, category: CategoryAdd) -> Category:
-        with allure.step('Добавление категорий API'):
-            category = CategoryAdd.model_validate(category)
-            response = self.session.post(urljoin(self.base_url, '/api/categories/add'), json=category.model_dump())
-            response.raise_for_status()
-            return Category.model_validate(response.json())
+    @step("Отправить запрос на получение списка трат")
+    def get_spend(self, spend_id: int) -> Spend:
+        response = self.session.get(f"/api/spends/{spend_id}")
+        return Spend.model_validate(response.json())
 
-    def remove_category(self, ids: list[str]):
-        with allure.step('Удаление категорий API'):
-            url = urljoin(self.base_url, "/api/categories/remove")
-            response = self.session.delete(url, params={"ids": ids})
-            response.raise_for_status()
-
+    @step("Отправить запрос на получение списка трат")
     def get_spends(self) -> list[Spend]:
-        with allure.step('Получение трат API'):
-            response = self.session.get(urljoin(self.base_url, '/api/v2/spends/all'))
-            response.raise_for_status()
-            return [Spend.model_validate(item) for item in response.json()["content"]]
+        response = self.session.get("/api/spends/all")
+        return [Spend.model_validate(item) for item in response.json()]
 
-    def add_spends(self, spend: dict) -> Spend:
-        with allure.step('Добавление трат API'):
-            url = urljoin(self.base_url, "/api/spends/add")
-            spend_data = SpendAdd.model_validate(spend)
-            response = self.session.post(url, json=spend_data.model_dump())
-            response.raise_for_status()
-            return Spend.model_validate(response.json())
+    @step("Отправить запрос на создание траты")
+    def add_spends(self, spend: SpendAdd) -> Spend:
+        spend_data = SpendAdd.model_validate(spend)
+        response = self.session.post("/api/spends/add", json=spend_data.model_dump())
+        return Spend.model_validate(response.json())
 
+    @step("Отправить запрос на редактирование траты")
+    def edit_spend(self, edit_spend: SpendEdit) -> Spend:
+        spend_data = SpendEdit.model_validate(edit_spend)
+        response = self.session.patch("/api/spends/edit", json=spend_data.model_dump())
+        return Spend.model_validate(response.json())
+
+    @step("Отправить запрос на удаление траты")
     def remove_spends(self, ids: list[str]):
-        with allure.step('Удаление трат API'):
-            ids_param = ",".join(ids)
-            url = urljoin(self.base_url, "/api/spends/remove")
-            response = self.session.delete(url, params={"ids": ids_param})
-            response.raise_for_status()
+        response = self.session.delete("/api/spends/remove", params={"ids": ids})
+        return response
 
+    @step("Отправить запрос на редактирование категории")
+    def update_category(self, category):
+        category_data = Category.model_validate(category)
+        response = self.session.patch("/api/categories/update", json=category_data.model_dump())
+        response.raise_for_status()
+        return Category.model_validate(response.json())
+
+    @step('Удаление всех трат API')
     def delete_all_spendings(self):
-        with allure.step('Удаление всех трат API'):
-            all_spendings = self.get_spends()
-            spending_ids = [spending.id for spending in all_spendings]
-            if spending_ids:
-                self.remove_spends(spending_ids)
+        all_spendings = self.get_spends()
+        spending_ids = [spending.id for spending in all_spendings]
+        if spending_ids:
+            self.remove_spends(spending_ids)

@@ -8,3 +8,7 @@ class Envs(BaseModel):
     niffler_password: str
     gateway_url: str
     spend_db_url: str
+    kafka_address: str
+    userdata_db_url: str
+    soap_url: str
+    grpc_port: str

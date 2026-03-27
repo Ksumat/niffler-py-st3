@@ -1,20 +1,12 @@
+from datetime import datetime
+
 from pydantic import BaseModel
 from sqlmodel import SQLModel, Field
+from models.category import Category, CategoryAdd
 
 
-class Category(SQLModel, table=True):
-    id: str = Field(default=None, primary_key=True)
-    name: str
-    username: str
-
-
-class CategoryAdd(BaseModel):
-    name: str
-    username: str | None = None
-    archived: bool | None = None
-
-
-class Spend(SQLModel, table=True):
+class SpendBd(SQLModel, table=True):
+    __tablename__ = "spend"
     id: str = Field(default=None, primary_key=True)
     username: str
     amount: float
@@ -22,7 +14,26 @@ class Spend(SQLModel, table=True):
     currency: str
 
 
+class Spend(BaseModel):
+    id: str = Field(default=None, primary_key=True)
+    amount: float
+    description: str
+    category: Category
+    spendDate: datetime
+    currency: str
+    username: str
+
+
 class SpendAdd(BaseModel):
+    amount: float
+    description: str
+    category: CategoryAdd
+    spendDate: str
+    currency: str
+
+
+class SpendEdit(BaseModel):
+    id: str = Field(default=None, primary_key=True)
     amount: float
     description: str
     category: CategoryAdd

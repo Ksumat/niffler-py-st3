@@ -1,3 +1,5 @@
+import pytest
+
 from marks import Pages, TestData
 from tools.fakers import fake
 import allure
@@ -13,6 +15,7 @@ class TestSpendPage:
         spending_page.open_spending_page()
         spending_page.check_spending_page_titles('Statistics')
 
+    @pytest.mark.xdist_group(name="spending_tests")
     @allure.title('Заведение новой траты')
     @Pages.open_main_page
     def test_create_new_spending(self, spending_page):
@@ -23,6 +26,7 @@ class TestSpendPage:
         spending_page.create_spend(amount, category, description)
         spending_page.check_spending_exists(category, amount)
 
+    @pytest.mark.xdist_group(name="spending_tests")
     @allure.title('Удаление траты')
     @Pages.open_main_page
     def test_delete_spending(self, spending_page):
@@ -34,6 +38,7 @@ class TestSpendPage:
         spending_page.delete_spend(category)
         spending_page.action_should_have_signal_text("Spendings succesfully delete")
 
+    @pytest.mark.xdist_group(name="spending_tests")
     @allure.title('Удаление всех трат')
     @Pages.open_spending_page
     @TestData.category(TEST_CATEGORY)
@@ -49,6 +54,7 @@ class TestSpendPage:
     def test_delete_all_spending(self, spending_page, category):
         spending_page.check_delete_spending("Spendings succesfully deleted")
 
+    @pytest.mark.xdist_group(name="spending_tests")
     @allure.title('Изменение валюты в трате')
     @Pages.open_spending_page
     @TestData.category(TEST_CATEGORY)
@@ -65,6 +71,7 @@ class TestSpendPage:
         spending_page.edit_spending_currency("USD")
         spending_page.action_should_have_signal_text("Spending is edited successfully")
 
+    @pytest.mark.xdist_group(name="spending_tests")
     @allure.title('Добавление новой траты, проверка в бд')
     @Pages.open_spending_page
     @TestData.category(TEST_CATEGORY)
