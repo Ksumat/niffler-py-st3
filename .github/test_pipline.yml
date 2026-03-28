@@ -1,0 +1,136 @@
+name: Python E2E Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  PYTHON_VERSION: '3.11'
+  POETRY_VERSION: '1.8.2'
+  ALLURE_VERSION: '2.29.0'
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    strategy:
+      matrix:
+        python-version: ['3.11']
+
+    steps:
+      # 1. Checkout кода
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # 2. Установка JDK 21
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      # 3. Запуск докера
+      - name: Start docker compose services
+        run: |
+          bash docker-compose-dev.sh
+
+      # 4. Добавление Hosts
+      - name: Add hosts entries
+        run: |
+          echo "127.0.0.1 auth.niffler.dc" | sudo tee -a /etc/hosts
+          echo "127.0.0.1 frontend.niffler.dc" | sudo tee -a /etc/hosts
+          echo "127.0.0.1 gateway.niffler.dc" | sudo tee -a /etc/hosts
+          echo "127.0.0.1 userdata.niffler.dc" | sudo tee -a /etc/hosts
+
+      # 5. Установка Python
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      # 6. Установка Poetry
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      # 7. Кэширование зависимостей Poetry
+      - name: Cache Poetry dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pypoetry
+            .venv
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-poetry-
+
+      # 8. Установка зависимостей проекта
+      - name: Install dependencies
+        run: |
+          cd niffler-e-2-e-tests-python
+          poetry config virtualenvs.in-project true
+          poetry install --no-interaction
+
+      # 9. Установка браузеров Playwright
+      - name: Install Playwright browsers
+        run: |
+          cd niffler-e-2-e-tests-python
+          poetry run playwright install chromium
+          poetry run playwright install-deps chromium
+
+      # 10. Установка Allure
+      - name: Install Allure
+        run: |
+          wget https://github.com/allure-framework/allure2/releases/download/${{ env.ALLURE_VERSION }}/allure-2.29.0.tgz
+          tar -zxvf allure-2.29.0.tgz -C /opt/
+          echo "/opt/allure-2.29.0/bin" >> $GITHUB_PATH
+
+      # 11. Запуск тестов с генерацией Allure-отчёта
+      - name: Run tests with Allure
+        run: |
+          cd niffler-e-2-e-tests-python
+          poetry run pytest \
+            -n 2 \
+            --dist loadgroup \
+            --alluredir=allure-results \
+            --clean-alluredir \
+            -v \
+            --tb=short
+        env:
+          AUTH_URL: ${{ vars.AUTH_URL }}
+          FRONT_URL: ${{ vars.FRONTEND_URL }}
+          GATEWAY_URL: ${{ vars.GATEWAY_URL }}
+          NIFFLER_USER: ${{ secrets.NIFFLER_USER }}
+          NIFFLER_PASSWORD: ${{ secrets.NIFFLER_PASSWORD }}
+          SPEND_DB_URL: ${{ secrets.SPEND_DB_URL }}
+          KAFKA_ADDRESS: ${{ vars.KAFKA_ADDRESS }}
+          USER_DB_URL: ${{ secrets.USER_DB_URL }}
+          SOAP_URL: ${{ vars.SOAP_URL }}
+          GRPC_PORT: ${{ vars.GRPC_PORT }}
+
+
+      # 12. Публикация Allure-отчёта на GitHub Pages
+      - name: Deploy Allure Report to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: gh-pages/history
+          keep_files: true
+
+      # 13. Загрузка Allure-отчёта как артефакт
+      - name: Upload Allure Report as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: niffler-e-2-e-tests-python/allure-report
