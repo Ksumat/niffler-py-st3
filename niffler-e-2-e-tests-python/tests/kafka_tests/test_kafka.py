@@ -10,8 +10,8 @@ from database.userdata_db import UserdataDb
 KAFKA_TOPIC = "users"
 
 
-@epic("[KAFKA][niffler-auth]: Паблишинг сообщений в кафку")
-@suite("[KAFKA][niffler-auth]: Паблишинг сообщений в кафку")
+@epic("Паблишинг сообщений в кафку")
+@suite("Паблишинг сообщений в кафку")
 class TestKafka:
 
     @title("KAFKA: Сообщение с пользователем публикуется в Kafka после успешной регистрации")
