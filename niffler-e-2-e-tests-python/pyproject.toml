@@ -1,34 +1,42 @@
-[project]
+[tool.poetry]
 name = "niffler-e-2-e-tests-python"
 version = "0.1.0"
-description = "tests for Niffler app"
-authors = [
-    {name = "Matyushkina Kseniya"}
-]
+description = "E2E tests for Niffler application"
+authors = ["Matyushkina Kseniya"]
 readme = "README.md"
 requires-python = ">=3.11,<4.0"
-dependencies = [
-    "playwright (>=1.56.0,<2.0.0)",
-    "pytest (>=7.0.0,<9.0.0)",
-    "pytest-playwright (>=0.7.1,<0.8.0)",
-    "python-dotenv (>=1.2.1,<2.0.0)",
-    "faker (>=38.0.0,<39.0.0)",
-    "pydantic (>=2.12.4,<3.0.0)",
-    "psycopg2-binary (>=2.9.11,<3.0.0)",
-    "sqlalchemy (>=2.0.44,<3.0.0)",
-    "sqlmodel (>=0.0.27,<0.0.28)",
-    "allure-pytest (>=2.15.2,<3.0.0)",
-    "requests-toolbelt (>=0.0.0,<=1.0.0)",
-    "pkce (==1.0.3)",
-    "curlify (==2.2.1)",
-    "jinja2 (>=3.1.6,<4.0.0)",
-    "confluent-kafka (>=2.13.0,<3.0.0)",
-    "xmlschema (>=4.3.1,<5.0.0)",
-    "pytest-xdist (>=3.8.0,<4.0.0)",
-    "pydantic-settings (>=2.13.1,<3.0.0)",
-    "grpcio-tools (>=1.78.0,<2.0.0)",
-    "pbreflect (>=1.1.1,<2.0.0)"
-]
+package-mode = false
+
+[tool.poetry.dependencies]
+playwright = "^1.56.0"
+pytest = "^7.0.0"
+pytest-playwright = "^0.7.1"
+python-dotenv = "^1.2.1"
+faker = "^38.0.0"
+pydantic = "^2.12.4"
+psycopg2-binary = "^2.9.11"
+sqlalchemy = "^2.0.44"
+sqlmodel = "^0.0.27"
+allure-pytest = "^2.15.2"
+requests-toolbelt = "^1.0.0"
+pkce = "1.0.3"
+curlify = "2.2.1"
+jinja2 = "^3.1.6"
+confluent-kafka = "^2.13.0"
+xmlschema = "^4.3.1"
+pytest-xdist = "^3.8.0"
+pydantic-settings = "^2.13.1"
+grpcio-tools = "^1.78.0"
+pbreflect = "^1.1.1"
+requests = "^2.31.0"
+grpcio = "^1.78.0"
+protobuf = "^5.29.0"
+
+[tool.poetry.group.dev.dependencies]
+setuptools = "^82.0.1"
+flake8 = "^7.0.0"
+black = "^24.0.0"
+
 [tool.pytest.ini_options]
 python_files = [
     "*_tests.py",
@@ -38,11 +46,16 @@ addopts = [
     "-v",
     "-s"
 ]
+markers = [
+    "ui: UI tests with Playwright",
+    "api: API tests",
+    "grpc: gRPC tests",
+    "soap: SOAP tests",
+    "kafka: Kafka integration tests",
+    "integration: Integration tests",
+    "negative: Negative scenarios"
+]
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
-[dependency-groups]
-dev = [
-    "setuptools (>=82.0.1,<83.0.0)"
-]
