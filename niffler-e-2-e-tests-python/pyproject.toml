@@ -30,7 +30,7 @@ grpcio-tools = "^1.78.0"
 pbreflect = "^1.1.1"
 requests = "^2.31.0"
 grpcio = "^1.78.0"
-protobuf = "^5.29.0"
+protobuf = ">=6.31.0"
 
 [tool.poetry.group.dev.dependencies]
 setuptools = "^82.0.1"
