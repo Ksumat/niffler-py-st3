@@ -6,10 +6,8 @@ authors = ["Matyushkina Kseniya"]
 readme = "README.md"
 package-mode = false
 
-[project]
-requires-python = ">=3.11,<4.0"
-
 [tool.poetry.dependencies]
+python = ">=3.11,<4.0"  
 playwright = "^1.56.0"
 pytest = "^7.0.0"
 pytest-playwright = "^0.7.1"
