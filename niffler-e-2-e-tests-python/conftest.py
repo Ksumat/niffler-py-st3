@@ -14,10 +14,6 @@ from tools.sessions import SoapSession
 #from internal.pb.grpc.interceptors.logging import LoggingInterceptor
 #from settings.settings import Settings
 
-INTERCEPTORS = [
-    LoggingInterceptor(),
-    AllureInterceptor(),
-]
 
 pytest_plugins = ["fixtures.auth_fixtures", "fixtures.client_fixtures", "fixtures.pages_fixtures"]
 
