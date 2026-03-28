@@ -4,8 +4,10 @@ version = "0.1.0"
 description = "E2E tests for Niffler application"
 authors = ["Matyushkina Kseniya"]
 readme = "README.md"
-requires-python = ">=3.11,<4.0"
 package-mode = false
+
+[project]
+requires-python = ">=3.11,<4.0"
 
 [tool.poetry.dependencies]
 playwright = "^1.56.0"
