@@ -123,3 +123,8 @@ poetry run pytest tests/grpc_tests --mock
 10. 📊 Генерация Allure-отчёта
 11. 🌐 Публикация отчёта на GitHub Pages
 12. 📦 Загрузка отчёта в артефакты
+
+📊 [Allure Report](https://ksumat.github.io/niffler-py-st3/) 
+
+[![Pages](https://img.shields.io/badge/pages-{status}-blue.svg)](https://ksumat.github.io/niffler-py-st3/)
+
