@@ -1,0 +1,16 @@
+[
+    {
+        "id": "7775a138-748d-4358-b892-1432e1a62180",
+        "spendDate": "2026-03-27T21:00:00.000+00:00",
+        "category": {
+            "id": "e71c7578-0494-4668-bc2f-a7e26834570d",
+            "name": "Bed",
+            "username": "arge342d",
+            "archived": false
+        },
+        "currency": "USD",
+        "amount": 3818.74,
+        "description": "Coach quality six blood eat",
+        "username": "arge342d"
+    }
+]

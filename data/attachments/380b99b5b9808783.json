@@ -1,0 +1,16 @@
+[
+    {
+        "id": "a939d522-beda-4be9-afd9-f32e0c89b5c9",
+        "spendDate": "2026-03-27T21:00:00.000+00:00",
+        "category": {
+            "id": "10c273ee-e002-4552-b800-5f0a2ace3cd5",
+            "name": "This",
+            "username": "arge342d",
+            "archived": false
+        },
+        "currency": "KZT",
+        "amount": 6259.12,
+        "description": "Easy prove drop understand act set",
+        "username": "arge342d"
+    }
+]

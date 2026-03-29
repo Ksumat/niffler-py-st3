@@ -1,0 +1,14 @@
+{
+    "id": "cd2afe29-10d6-446c-8b95-1c5985b3394c",
+    "spendDate": "2026-03-28T19:38:18.209+00:00",
+    "category": {
+        "id": "491f51ef-def3-45b7-90b1-8ee766ad49de",
+        "name": "Tv",
+        "username": "arge342d",
+        "archived": false
+    },
+    "currency": "EUR",
+    "amount": 7310.01,
+    "description": "",
+    "username": "arge342d"
+}

@@ -1,0 +1,16 @@
+[
+    {
+        "id": "2ea6232d-8f95-496a-a465-207ed570d11b",
+        "spendDate": "2026-03-28T21:00:00.000+00:00",
+        "category": {
+            "id": "7cdf02f1-64fc-4aab-99d8-51285e2ab7bc",
+            "name": "personal",
+            "username": "arge342d",
+            "archived": false
+        },
+        "currency": "RUB",
+        "amount": 3.0,
+        "description": "pkelley",
+        "username": "arge342d"
+    }
+]
