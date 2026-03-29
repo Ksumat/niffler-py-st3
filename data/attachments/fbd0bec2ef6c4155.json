@@ -1,0 +1,14 @@
+{
+    "id": "da2e4dfc-f786-4b8b-ad90-a8ba14caf1dc",
+    "spendDate": "2026-03-28T19:37:30.772+00:00",
+    "category": {
+        "id": "c5c5b235-5a5d-4610-913a-928aab68c9d0",
+        "name": "Matter",
+        "username": "arge342d",
+        "archived": false
+    },
+    "currency": "EUR",
+    "amount": 5651.5,
+    "description": "",
+    "username": "arge342d"
+}

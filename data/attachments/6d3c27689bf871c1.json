@@ -1,0 +1,16 @@
+[
+    {
+        "id": "26461f71-5631-40ac-8300-4f6ae3741c81",
+        "spendDate": "2026-03-27T21:00:00.000+00:00",
+        "category": {
+            "id": "6d0bebf4-fc2e-4cd8-b1e8-47a0ab733643",
+            "name": "Teach",
+            "username": "arge342d",
+            "archived": false
+        },
+        "currency": "RUB",
+        "amount": 8426.77,
+        "description": "Manager impact size soldier",
+        "username": "arge342d"
+    }
+]

@@ -1,0 +1,16 @@
+[
+    {
+        "id": "225cf5a6-fc91-478e-9299-aa6579f09426",
+        "spendDate": "2026-03-27T21:00:00.000+00:00",
+        "category": {
+            "id": "c9626557-11f1-44be-a2fc-c784c2e48a80",
+            "name": "Model",
+            "username": "arge342d",
+            "archived": false
+        },
+        "currency": "KZT",
+        "amount": 4527.52,
+        "description": "Own enjoy operation among according chai",
+        "username": "arge342d"
+    }
+]

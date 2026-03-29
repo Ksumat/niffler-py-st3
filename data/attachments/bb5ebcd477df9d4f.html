@@ -1,0 +1,121 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .status {
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        .status-2xx { color: #155724; background: #d4edda; border: 1px solid #c3e6cb; }
+        .status-4xx { color: #721c24; background: #f8d7da; border: 1px solid #f5c6cb; }
+        .status-5xx { color: #856404; background: #fff3cd; border: 1px solid #ffeaa7; }
+        .url {
+            padding: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-family: monospace;
+            word-break: break-all;
+        }
+        pre {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background: #f8f9fa;
+            font-weight: bold;
+            width: 30%;
+        }
+        h4 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: #495057;
+        }
+    </style>
+</head>
+<body>
+    <div class="status
+        status-2xx
+        ">
+        Status code: 200
+    </div>
+
+    
+    <div class="url">
+        <strong>URL:</strong><br>http://localhost:8089/ws/userdata
+    </div>
+    
+
+    
+
+    
+    <h4>Headers</h4>
+    <table>
+        <tbody>
+            
+            <tr>
+                <th>Accept</th>
+                <td>text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2</td>
+            </tr>
+            
+            <tr>
+                <th>SOAPAction</th>
+                <td>""</td>
+            </tr>
+            
+            <tr>
+                <th>Content-Type</th>
+                <td>text/xml;charset=utf-8</td>
+            </tr>
+            
+            <tr>
+                <th>Content-Length</th>
+                <td>405</td>
+            </tr>
+            
+            <tr>
+                <th>Date</th>
+                <td>Sun, 29 Mar 2026 19:37:32 GMT</td>
+            </tr>
+            
+            <tr>
+                <th>Keep-Alive</th>
+                <td>timeout=60</td>
+            </tr>
+            
+            <tr>
+                <th>Connection</th>
+                <td>keep-alive</td>
+            </tr>
+            
+        </tbody>
+    </table>
+    
+</body>
+</html>

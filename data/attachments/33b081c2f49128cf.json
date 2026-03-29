@@ -1,0 +1,16 @@
+[
+    {
+        "id": "0b1287ed-1859-4bfb-b2de-78ff0c399c39",
+        "spendDate": "2026-03-28T21:00:00.000+00:00",
+        "category": {
+            "id": "d831b4cf-f91e-4600-b059-0caf5c5ff3ef",
+            "name": "resource",
+            "username": "arge342d",
+            "archived": false
+        },
+        "currency": "RUB",
+        "amount": 94.0,
+        "description": "joe19",
+        "username": "arge342d"
+    }
+]
