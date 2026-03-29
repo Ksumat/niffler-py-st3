@@ -99,13 +99,12 @@ jobs:
         run: |
           cd niffler-e-2-e-tests-python
           poetry run pytest \
-            # -n 2 \
-            # --dist loadgroup \
+            -n 2 \
+            --dist loadgroup \
             --alluredir=allure-results \
             --clean-alluredir \
             -v \
-            -s \
-            --tb=long
+            --tb=short
         env:
           AUTH_URL: ${{ vars.AUTH_URL }}
           FRONT_URL: ${{ vars.FRONTEND_URL }}
