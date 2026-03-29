@@ -24,6 +24,34 @@ https://qa.guru/python_advanced
 | **Message Broker** | Apache Kafka |
 
 ---
+## 📁 Структура проекта
+```
+📦 niffler-e-2-e-tests-python/
+├── 📁 clients/ # HTTP/gRPC клиенты для сервисов Niffler
+│ ├── api.py # BaseHttpClient, Category/Spend API clients
+│ └── currency_client.py # gRPC клиент
+├── 📁 database/ # Модели SQLAlchemy и работа с БД
+├── 📁 fixtures/ # Pytest-фикстуры (session/function scope)
+├── 📁 internal/pb/ # Сгенерированный gRPC код (pbreflect)
+├── 📁 models/ # Pydantic-модели для валидации ответов
+├── 📁 pages/ # Page Objects для Playwright (UI-тесты)
+├── 📁 protos/ # .proto файлы для gRPC генерации
+├── 📁 resources/ # Jinja2-шаблоны для кастомизации Allure
+├── 📁 settings/ # Настройки окружения (pydantic-settings)
+├── 📁 tests/ # Тестовые сценарии
+│ ├── ui/ # UI-тесты Playwright
+│ ├── api/ # REST API тесты
+│ ├── grpc_tests/ # gRPC тесты с моками
+│ ├── soap/ # SOAP тесты userdata
+│ └── integration/ # Интеграционные тесты (Kafka, DB)
+├── 📁 tools/ # Вспомогательные утилиты
+├── .env.example # Шаблон переменных окружения
+├── conftest.py # Глобальные фикстуры и хуки pytest
+├── marks.py # Кастомные маркеры для фильтрации тестов
+├── pyproject.toml # Зависимости Poetry
+└── README.md
+```
+---
 
 ### Локальный запуск
  
@@ -36,30 +64,30 @@ https://qa.guru/python_advanced
 python -m venv .venv
 source .venv/bin/activate
 ```
-5.Установить Poetry (выполнить в терминале IDE):
+6. Установить Poetry (выполнить в терминале IDE):
 ```
 pip install poetry
 ```
-6.Установить зависимости:
+7. Установить зависимости:
 ```
 poetry install
 ```
-7. Настроить файл .env по шаблону из .env.example
+8. Настроить файл .env по шаблону из .env.example
 
-8. Запуск тестов:
+9. Запуск тестов:
 ```
 poetry run pytest --alluredir=allure-results --clean-alluredir
 ```
-7.Запуск тестов в многопоточном режиме:
+10. Запуск тестов в многопоточном режиме:
 ```
 poetry run pytest -n 2 --dist loadgroup --alluredir=allure-results --clean-alluredir
 ```
-8.Визуализация результатов тестирования:
+11. Визуализация результатов тестирования:
 ```
 allure serve allure-results
 ```
 
-## Мокирование GRPC
+## Мокирование gRPC
 
 ### Для мокирования GRPC на проекте используется Wiremock
 Чтобы поднять контейнер выполните команду:
@@ -71,3 +99,27 @@ docker compose -f docker-compose.grpc_mock.yml up
 ```
 poetry run pytest tests/grpc_tests --mock
 ```
+
+## 🔄 CI/CD (GitHub Actions)
+
+### 📊 Воркфлоу
+Файл: `.github/workflows/python-tests.yml`
+
+**Триггеры:**
+- `push` в ветку `main`
+- `pull_request` в `main`
+- Ручной запуск (`workflow_dispatch`)
+
+**Этапы пайплайна:**
+1. 📦 Checkout кода
+2. ☕ Установка JDK 21
+3. 🐳 Запуск Docker-сервисов (2-5 мин)
+4. 🌐 Настройка /etc/hosts
+5. ⚙️ Установка Python 3.11 + Poetry
+6. 🗃 Кэширование зависимостей
+7. 🌐 Установка браузеров Playwright
+8. 📥 Установка зависимостей проекта
+9. 🚀 Запуск тестов (параллельно, `-n auto`)
+10. 📊 Генерация Allure-отчёта
+11. 🌐 Публикация отчёта на GitHub Pages
+12. 📦 Загрузка отчёта в артефакты
