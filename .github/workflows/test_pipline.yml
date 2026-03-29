@@ -104,7 +104,8 @@ jobs:
             --alluredir=allure-results \
             --clean-alluredir \
             -v \
-            # --tb=short
+            -s \
+            --tb=long
         env:
           AUTH_URL: ${{ vars.AUTH_URL }}
           FRONT_URL: ${{ vars.FRONTEND_URL }}
