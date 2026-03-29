@@ -2,12 +2,12 @@
 name = "niffler-e-2-e-tests-python"
 version = "0.1.0"
 description = "E2E tests for Niffler application"
-authors = ["Matyushkina Kseniya "]
+authors = ["Matyushkina Kseniya"]
 readme = "README.md"
-requires-python = ">=3.11,<4.0"
 package-mode = false
 
 [tool.poetry.dependencies]
+python = ">=3.11,<4.0"  
 playwright = "^1.56.0"
 pytest = "^7.0.0"
 pytest-playwright = "^0.7.1"
@@ -30,7 +30,7 @@ grpcio-tools = "^1.78.0"
 pbreflect = "^1.1.1"
 requests = "^2.31.0"
 grpcio = "^1.78.0"
-protobuf = "^5.29.0"
+protobuf = ">=6.31.0"
 
 [tool.poetry.group.dev.dependencies]
 setuptools = "^82.0.1"
