@@ -117,8 +117,16 @@ jobs:
           SOAP_URL: ${{ vars.SOAP_URL }}
           GRPC_PORT: ${{ vars.GRPC_PORT }}
 
+      # 12. Генерация Allure-отчёта
+      - name: Generate Allure Report
+        if: always()
+        uses: simple-elf/allure-report-action@master
+        with:
+          allure_results: niffler-e-2-e-tests-python/allure-results
+          allure_report: niffler-e-2-e-tests-python/allure-report
+          keep_reports: 20
 
-      # 12. Публикация Allure-отчёта на GitHub Pages
+      # 13. Публикация Allure-отчёта на GitHub Pages
       - name: Deploy Allure Report to GitHub Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v3
@@ -128,7 +136,7 @@ jobs:
           publish_dir: gh-pages/history
           keep_files: true
 
-      # 13. Загрузка Allure-отчёта как артефакт
+      # 14. Загрузка Allure-отчёта как артефакт
       - name: Upload Allure Report as artifact
         if: always()
         uses: actions/upload-artifact@v4
