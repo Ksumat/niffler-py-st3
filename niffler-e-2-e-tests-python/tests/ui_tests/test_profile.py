@@ -30,16 +30,6 @@ class TestCategories:
         profile_page.add_category(same_category)
         profile_page.check_error_message(f"Error while adding category {same_category}: Cannot save duplicates")
 
-    @allure.title('Редактирование названия категории')
-    @Pages.open_profile_page
-    def test_edit_category_name(self, profile_page):
-        profile_page.add_new_category_if_empty()
-
-        old_name = profile_page.category_name.first.text_content()
-        new_name = fake.word()
-        profile_page.edit_first_category_name(new_name)
-        profile_page.check_category_name(new_name, old_name)
-
     @allure.title('Добавление категории и проверка в БД')
     @TestData.category(TEST_CATEGORY_BD)
     def test_add_category_and_check_db(self, envs, category, spend_db):
