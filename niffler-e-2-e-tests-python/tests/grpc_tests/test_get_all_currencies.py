@@ -1,5 +1,5 @@
 from google.protobuf import empty_pb2
-
+#
 import allure
 from internal.pb.niffler_currency_pb2_pbreflect import NifflerCurrencyServiceClient
 

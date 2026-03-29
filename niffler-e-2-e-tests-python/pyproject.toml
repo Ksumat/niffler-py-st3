@@ -2,7 +2,7 @@
 name = "niffler-e-2-e-tests-python"
 version = "0.1.0"
 description = "E2E tests for Niffler application"
-authors = ["Matyushkina Kseniya"]
+authors = ["Matyushkina Kseniya "]
 readme = "README.md"
 requires-python = ">=3.11,<4.0"
 package-mode = false
