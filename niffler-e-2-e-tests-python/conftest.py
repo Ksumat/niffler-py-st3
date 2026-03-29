@@ -1,7 +1,7 @@
 import os
 import grpc
 import pytest
-
+#
 from database.userdata_db import UserdataDb
 from models.config import Envs
 from dotenv import load_dotenv
@@ -9,11 +9,15 @@ from allure_commons.reporter import AllureReporter
 from allure_pytest.listener import AllureListener
 from clients.kafka_client import KafkaClient
 from tools.sessions import SoapSession
-#from internal.pb.niffler_currency_pb2_pbreflect import NifflerCurrencyServiceClient
-#from internal.pb.grpc.interceptors.allure import AllureInterceptor
-#from internal.pb.grpc.interceptors.logging import LoggingInterceptor
-#from settings.settings import Settings
+from internal.pb.niffler_currency_pb2_pbreflect import NifflerCurrencyServiceClient
+from internal.pb.grpc.interceptors.allure import AllureInterceptor
+from internal.pb.grpc.interceptors.logging import LoggingInterceptor
+from settings.settings import Settings
 
+INTERCEPTORS = [
+    LoggingInterceptor(),
+    AllureInterceptor(),
+]
 
 pytest_plugins = ["fixtures.auth_fixtures", "fixtures.client_fixtures", "fixtures.pages_fixtures"]
 
@@ -65,11 +69,21 @@ def create_test_user_before_run(auth_client, envs):
         print(f"User exists: {err}")
 
 
-#@pytest.fixture(scope="session")
-#def settings() -> Settings:
-    #""" Fixture for settings """
-    #return Settings()
+@pytest.fixture(scope="session")
+def settings() -> Settings:
+    """ Fixture for settings """
+    return Settings()
 
 
 def pytest_addoption(parser: pytest.Parser) -> None:
     parser.addoption("--mock", action="store_true", default=False)
+
+
+@pytest.fixture(scope="session")
+def grpc_client(settings: Settings, request: pytest.FixtureRequest) -> NifflerCurrencyServiceClient:
+    host = settings.currency_service_host
+    if request.config.getoption("--mock"):
+        host = settings.wiremock_host
+    channel = grpc.insecure_channel(host)
+    intercept_channel = grpc.intercept_channel(channel, *INTERCEPTORS)
+    return NifflerCurrencyServiceClient(intercept_channel)
