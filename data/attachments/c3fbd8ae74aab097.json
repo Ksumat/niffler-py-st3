@@ -1,0 +1,16 @@
+[
+    {
+        "id": "c467ef3f-f9b1-4208-9030-b5e44eac5016",
+        "spendDate": "2026-03-28T21:00:00.000+00:00",
+        "category": {
+            "id": "68f24107-84dd-420f-9b3a-1c0e1bd8c50b",
+            "name": "purpose",
+            "username": "arge342d",
+            "archived": false
+        },
+        "currency": "RUB",
+        "amount": 80.0,
+        "description": "nwhite",
+        "username": "arge342d"
+    }
+]

@@ -1,0 +1,16 @@
+[
+    {
+        "id": "42052305-8e5f-414d-a2b0-a0dfb56c5002",
+        "spendDate": "2026-03-27T21:00:00.000+00:00",
+        "category": {
+            "id": "ba1859f0-3a96-484e-af14-59d48edfc3f0",
+            "name": "Account",
+            "username": "arge342d",
+            "archived": false
+        },
+        "currency": "USD",
+        "amount": 903.86,
+        "description": "",
+        "username": "arge342d"
+    }
+]

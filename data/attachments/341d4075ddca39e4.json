@@ -1,0 +1,14 @@
+{
+    "id": "7e9c1397-b399-4724-a03f-cd469b9bb673",
+    "spendDate": "2024-08-08T18:39:27.955+00:00",
+    "category": {
+        "id": "02ef8a25-d1fb-4463-94a0-72dacc1f8916",
+        "name": "school",
+        "username": "arge342d",
+        "archived": false
+    },
+    "currency": "RUB",
+    "amount": 108.51,
+    "description": "QA.GURU Python Advanced 1",
+    "username": "arge342d"
+}

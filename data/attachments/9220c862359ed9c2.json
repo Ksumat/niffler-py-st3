@@ -1,0 +1,16 @@
+[
+    {
+        "id": "551b0b13-8e03-425d-b250-45b3c5477928",
+        "spendDate": "2026-03-27T21:00:00.000+00:00",
+        "category": {
+            "id": "3e72875e-bb84-4b6b-b6b3-055fead9ff30",
+            "name": "Sure",
+            "username": "arge342d",
+            "archived": false
+        },
+        "currency": "EUR",
+        "amount": 6499.53,
+        "description": "Seem likely turn address probably often ",
+        "username": "arge342d"
+    }
+]

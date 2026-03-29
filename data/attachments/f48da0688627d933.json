@@ -1,0 +1,14 @@
+{
+    "id": "da950cb1-8655-4f67-8b5a-bd0950ec06c1",
+    "spendDate": "2026-03-27T21:00:00.000+00:00",
+    "category": {
+        "id": "75b6bf33-e7e1-4cf8-8125-cc5db42d64ef",
+        "name": "Training",
+        "username": "arge342d",
+        "archived": false
+    },
+    "currency": "USD",
+    "amount": 1698.75,
+    "description": "Foreign recent speak bad write this",
+    "username": "arge342d"
+}

@@ -1,0 +1,80 @@
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset = UTF-8">
+    <script src="https://yastatic.net/jquery/2.2.3/jquery.min.js" crossorigin="anonymous"></script>
+
+    <link href="https://yastatic.net/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://yastatic.net/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+    <link type="text/css" href="https://yandex.st/highlightjs/8.0/styles/github.min.css" rel="stylesheet"/>
+    <script type="text/javascript" src="https://yandex.st/highlightjs/8.0/highlight.min.js"></script>
+    <script type="text/javascript" src="https://yandex.st/highlightjs/8.0/languages/bash.min.js"></script>
+    <script type="text/javascript" src="https://yandex.st/highlightjs/8.0/languages/json.min.js"></script>
+    <script type="text/javascript" src="https://yandex.st/highlightjs/8.0/languages/xml.min.js"></script>
+    <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+    <style>
+        pre {
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <pre><code>POST to http://gateway.niffler.dc:8090/api/spends/add</code></pre>
+</div>
+
+
+    <h4>Body</h4>
+    <div>
+        <pre><code>b'{"amount": 108.51, "description": "QA.GURU Python Advanced 1", "category": {"name": "school", "username": null, "archived": null}, "spendDate": "2024-08-08T18:39:27.955Z", "currency": "RUB"}'</code></pre>
+    </div>
+
+
+
+
+    <h4>Headers</h4>
+    <div>
+    
+        <div>
+            <pre><code><b>User-Agent</b>: python-requests/2.33.0</code></pre>
+        </div>
+    
+        <div>
+            <pre><code><b>Accept-Encoding</b>: gzip, deflate</code></pre>
+        </div>
+    
+        <div>
+            <pre><code><b>Accept</b>: application/json</code></pre>
+        </div>
+    
+        <div>
+            <pre><code><b>Connection</b>: keep-alive</code></pre>
+        </div>
+    
+        <div>
+            <pre><code><b>Authorization</b>: Bearer eyJraWQiOiI5OTY5YTUxNi1hMjNjLTQxY2MtYWE1Zi0yYjA0ZWMzMmJiYjIiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhcmdlMzQyZCIsImF1ZCI6ImNsaWVudCIsIm5iZiI6MTc3NDgxMjQ3OCwic2NvcGUiOlsib3BlbmlkIl0sImlzcyI6Imh0dHA6Ly9hdXRoLm5pZmZsZXIuZGM6OTAwMCIsImV4cCI6MTc3NDgxNjA3OCwiaWF0IjoxNzc0ODEyNDc4LCJqdGkiOiI3NTYyMGYyZS04NTQ0LTQ5MmItYWYxMS03MzBiMTM3N2FmNjEifQ.QWXX5u6iI2BBmjwjYIZNsxDu4BpJzpY2xFRJLWU2-t3Ms6t07yzxmu3bGEUflkq7wnB0jaUhbLi_6E6ESW48WWTRFN7au1dSFZOCj8PVmcPwitkcedTmH71g4WADFiGCp7aN0rK1pSHj9gxfEeJsOAbkR6db6i_mANST4FtFx263ARxyN5nOQhXRNjlKj-6-UjScXz6v9hdOgz1zQ3ArxoatGyUtJeVdFiVhehR4EiV8t5ENFkBdV2hSla6TI1hw_6nqMjLHRed-DXMudUTAqcb-lgfd0j6p0dBQbzC3UlbI76UxoUOJ6HdKLn5gGJuuU3ny1bgMZnUDr-G-gZqQ5A</code></pre>
+        </div>
+    
+        <div>
+            <pre><code><b>Content-Type</b>: application/json</code></pre>
+        </div>
+    
+        <div>
+            <pre><code><b>Content-Length</b>: 190</code></pre>
+        </div>
+    
+    </div>
+
+
+
+
+
+
+    <h4>Curl</h4>
+    <div>
+        <pre><code>curl -X POST -H 'Accept: application/json' -H 'Accept-Encoding: gzip, deflate' -H 'Authorization: Bearer eyJraWQiOiI5OTY5YTUxNi1hMjNjLTQxY2MtYWE1Zi0yYjA0ZWMzMmJiYjIiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhcmdlMzQyZCIsImF1ZCI6ImNsaWVudCIsIm5iZiI6MTc3NDgxMjQ3OCwic2NvcGUiOlsib3BlbmlkIl0sImlzcyI6Imh0dHA6Ly9hdXRoLm5pZmZsZXIuZGM6OTAwMCIsImV4cCI6MTc3NDgxNjA3OCwiaWF0IjoxNzc0ODEyNDc4LCJqdGkiOiI3NTYyMGYyZS04NTQ0LTQ5MmItYWYxMS03MzBiMTM3N2FmNjEifQ.QWXX5u6iI2BBmjwjYIZNsxDu4BpJzpY2xFRJLWU2-t3Ms6t07yzxmu3bGEUflkq7wnB0jaUhbLi_6E6ESW48WWTRFN7au1dSFZOCj8PVmcPwitkcedTmH71g4WADFiGCp7aN0rK1pSHj9gxfEeJsOAbkR6db6i_mANST4FtFx263ARxyN5nOQhXRNjlKj-6-UjScXz6v9hdOgz1zQ3ArxoatGyUtJeVdFiVhehR4EiV8t5ENFkBdV2hSla6TI1hw_6nqMjLHRed-DXMudUTAqcb-lgfd0j6p0dBQbzC3UlbI76UxoUOJ6HdKLn5gGJuuU3ny1bgMZnUDr-G-gZqQ5A' -H 'Connection: keep-alive' -H 'Content-Length: 190' -H 'Content-Type: application/json' -H 'User-Agent: python-requests/2.33.0' -d '{"amount": 108.51, "description": "QA.GURU Python Advanced 1", "category": {"name": "school", "username": null, "archived": null}, "spendDate": "2024-08-08T18:39:27.955Z", "currency": "RUB"}' http://gateway.niffler.dc:8090/api/spends/add</code></pre>
+    </div>
+
+</body>
+</html>
