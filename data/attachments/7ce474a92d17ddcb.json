@@ -1,0 +1,16 @@
+[
+    {
+        "id": "95ff5332-495e-4f03-bcab-4e01918c24c2",
+        "spendDate": "2026-03-27T21:00:00.000+00:00",
+        "category": {
+            "id": "fcb26073-97b2-46ea-8f4a-50abc7119d1a",
+            "name": "Participant",
+            "username": "arge342d",
+            "archived": false
+        },
+        "currency": "USD",
+        "amount": 9237.69,
+        "description": "To than language several",
+        "username": "arge342d"
+    }
+]

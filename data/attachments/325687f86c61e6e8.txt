@@ -1,0 +1,3 @@
+SELECT spend.id, spend.username, spend.amount, spend.description, spend.currency 
+FROM spend 
+WHERE spend.username = arge342d

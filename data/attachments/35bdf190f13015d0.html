@@ -1,0 +1,80 @@
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset = UTF-8">
+    <script src="https://yastatic.net/jquery/2.2.3/jquery.min.js" crossorigin="anonymous"></script>
+
+    <link href="https://yastatic.net/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://yastatic.net/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+    <link type="text/css" href="https://yandex.st/highlightjs/8.0/styles/github.min.css" rel="stylesheet"/>
+    <script type="text/javascript" src="https://yandex.st/highlightjs/8.0/highlight.min.js"></script>
+    <script type="text/javascript" src="https://yandex.st/highlightjs/8.0/languages/bash.min.js"></script>
+    <script type="text/javascript" src="https://yandex.st/highlightjs/8.0/languages/json.min.js"></script>
+    <script type="text/javascript" src="https://yandex.st/highlightjs/8.0/languages/xml.min.js"></script>
+    <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+    <style>
+        pre {
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <pre><code>POST to http://gateway.niffler.dc:8090/api/spends/add</code></pre>
+</div>
+
+
+    <h4>Body</h4>
+    <div>
+        <pre><code>b'{"amount": 391.5, "description": "Message gas listen story wife authority ", "category": {"name": "Cut", "username": null, "archived": null}, "spendDate": "2026-03-28T19:38:34.804596", "currency": "KZT"}'</code></pre>
+    </div>
+
+
+
+
+    <h4>Headers</h4>
+    <div>
+    
+        <div>
+            <pre><code><b>User-Agent</b>: python-requests/2.33.0</code></pre>
+        </div>
+    
+        <div>
+            <pre><code><b>Accept-Encoding</b>: gzip, deflate</code></pre>
+        </div>
+    
+        <div>
+            <pre><code><b>Accept</b>: application/json</code></pre>
+        </div>
+    
+        <div>
+            <pre><code><b>Connection</b>: keep-alive</code></pre>
+        </div>
+    
+        <div>
+            <pre><code><b>Authorization</b>: Bearer eyJraWQiOiJiMGRkOWM3OC1jZTQwLTRkMDktYjk1MC04YWQ0MGIzN2RiZGYiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhcmdlMzQyZCIsImF1ZCI6ImNsaWVudCIsIm5iZiI6MTc3NDgxMzExMywic2NvcGUiOlsib3BlbmlkIl0sImlzcyI6Imh0dHA6Ly9hdXRoLm5pZmZsZXIuZGM6OTAwMCIsImV4cCI6MTc3NDgxNjcxMywiaWF0IjoxNzc0ODEzMTEzLCJqdGkiOiI2MDYxNDRjYi03MTcwLTRjOGItYTZjZi04NjRhNGM0ZjYzNjgifQ.hsSpbpwcVhZvrbX07S7bQmF1uuQzYoofl00BlEXXd-EnO7yGcmAmmFx7b0z_t7JlNBhVEOnHAeIgxArqbhv1LLGV0vlU2Bg3ij-UTHD1lX_whoQEzEziZkwqfuPk98qPDWggVjskMaE-a9OSVjaZLWdyloyOFcZUj4DcR_OR-0ChxAB_4LyiR6V8OTLmO661LObV1giZPUHsU_-MatfsmIS2XmwNEq9xwAJiF9izXSztbaLtzGa7WW2EFutn0XazyZ3pggCn5IaUao9TvZYxp9D4TeB9-M9BJ6DV73ZyfbMwdpvytUbghKXwZteDwSkyGFoTzRcFPujIZzEd_GnGTQ</code></pre>
+        </div>
+    
+        <div>
+            <pre><code><b>Content-Type</b>: application/json</code></pre>
+        </div>
+    
+        <div>
+            <pre><code><b>Content-Length</b>: 203</code></pre>
+        </div>
+    
+    </div>
+
+
+
+
+
+
+    <h4>Curl</h4>
+    <div>
+        <pre><code>curl -X POST -H 'Accept: application/json' -H 'Accept-Encoding: gzip, deflate' -H 'Authorization: Bearer eyJraWQiOiJiMGRkOWM3OC1jZTQwLTRkMDktYjk1MC04YWQ0MGIzN2RiZGYiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhcmdlMzQyZCIsImF1ZCI6ImNsaWVudCIsIm5iZiI6MTc3NDgxMzExMywic2NvcGUiOlsib3BlbmlkIl0sImlzcyI6Imh0dHA6Ly9hdXRoLm5pZmZsZXIuZGM6OTAwMCIsImV4cCI6MTc3NDgxNjcxMywiaWF0IjoxNzc0ODEzMTEzLCJqdGkiOiI2MDYxNDRjYi03MTcwLTRjOGItYTZjZi04NjRhNGM0ZjYzNjgifQ.hsSpbpwcVhZvrbX07S7bQmF1uuQzYoofl00BlEXXd-EnO7yGcmAmmFx7b0z_t7JlNBhVEOnHAeIgxArqbhv1LLGV0vlU2Bg3ij-UTHD1lX_whoQEzEziZkwqfuPk98qPDWggVjskMaE-a9OSVjaZLWdyloyOFcZUj4DcR_OR-0ChxAB_4LyiR6V8OTLmO661LObV1giZPUHsU_-MatfsmIS2XmwNEq9xwAJiF9izXSztbaLtzGa7WW2EFutn0XazyZ3pggCn5IaUao9TvZYxp9D4TeB9-M9BJ6DV73ZyfbMwdpvytUbghKXwZteDwSkyGFoTzRcFPujIZzEd_GnGTQ' -H 'Connection: keep-alive' -H 'Content-Length: 203' -H 'Content-Type: application/json' -H 'User-Agent: python-requests/2.33.0' -d '{"amount": 391.5, "description": "Message gas listen story wife authority ", "category": {"name": "Cut", "username": null, "archived": null}, "spendDate": "2026-03-28T19:38:34.804596", "currency": "KZT"}' http://gateway.niffler.dc:8090/api/spends/add</code></pre>
+    </div>
+
+</body>
+</html>

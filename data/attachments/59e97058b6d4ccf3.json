@@ -1,0 +1,14 @@
+{
+    "id": "7597b6a4-4bc4-4252-8a1a-7b7508a90d27",
+    "spendDate": "2025-08-08T18:39:27.955+00:00",
+    "category": {
+        "id": "3bc78e89-9a43-49b9-b131-e99bb4fe4681",
+        "name": "school",
+        "username": "arge342d",
+        "archived": false
+    },
+    "currency": "RUB",
+    "amount": 101.1,
+    "description": "test_description",
+    "username": "arge342d"
+}

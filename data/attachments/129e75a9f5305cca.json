@@ -1,0 +1,16 @@
+[
+    {
+        "id": "b49af963-0441-4ce6-b9e1-8c0d81427565",
+        "spendDate": "2026-03-27T21:00:00.000+00:00",
+        "category": {
+            "id": "eb553e33-5f72-404b-885f-ead5ea5a8fad",
+            "name": "Line",
+            "username": "arge342d",
+            "archived": false
+        },
+        "currency": "RUB",
+        "amount": 5452.69,
+        "description": "",
+        "username": "arge342d"
+    }
+]

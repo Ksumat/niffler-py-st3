@@ -1,0 +1,16 @@
+[
+    {
+        "id": "8e837aae-c655-4c22-b204-64fd7d60c234",
+        "spendDate": "2026-03-27T21:00:00.000+00:00",
+        "category": {
+            "id": "4bbb40dd-1faf-4309-b591-654b3c9fbe82",
+            "name": "Machine",
+            "username": "arge342d",
+            "archived": false
+        },
+        "currency": "EUR",
+        "amount": 972.64,
+        "description": "Before represent argue tree",
+        "username": "arge342d"
+    }
+]

@@ -1,0 +1,16 @@
+[
+    {
+        "id": "72947f59-8718-4601-b8ff-f7b073569938",
+        "spendDate": "2026-03-28T21:00:00.000+00:00",
+        "category": {
+            "id": "e9fbde1e-906f-42fe-86bb-a528b8d5a501",
+            "name": "sell",
+            "username": "arge342d",
+            "archived": false
+        },
+        "currency": "RUB",
+        "amount": 54.0,
+        "description": "pamelalong",
+        "username": "arge342d"
+    }
+]
