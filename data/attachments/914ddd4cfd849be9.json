@@ -1,0 +1,14 @@
+{
+    "id": "612e57e8-4f33-427c-ada9-5c37d5714ef2",
+    "spendDate": "2026-03-28T19:39:08.271+00:00",
+    "category": {
+        "id": "708ada4d-4713-4fca-9b6f-03c3e2abd484",
+        "name": "Off",
+        "username": "arge342d",
+        "archived": false
+    },
+    "currency": "RUB",
+    "amount": 3104.0,
+    "description": "Agreement somebody understand",
+    "username": "arge342d"
+}

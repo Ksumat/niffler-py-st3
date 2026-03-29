@@ -1,0 +1,16 @@
+[
+    {
+        "id": "f2909c11-2c57-4390-a150-b5a207c2fdb4",
+        "spendDate": "2026-03-27T21:00:00.000+00:00",
+        "category": {
+            "id": "913c5fc1-6aca-47b0-b436-0d26e347f82d",
+            "name": "A",
+            "username": "arge342d",
+            "archived": false
+        },
+        "currency": "RUB",
+        "amount": 9752.21,
+        "description": "Low citizen leave anything rate",
+        "username": "arge342d"
+    }
+]

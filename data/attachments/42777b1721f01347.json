@@ -1,0 +1,16 @@
+[
+    {
+        "id": "fc2acfdc-641e-4674-8078-0646faf2e11f",
+        "spendDate": "2026-03-28T21:00:00.000+00:00",
+        "category": {
+            "id": "373522e3-fb5a-4d79-96d8-ef906739df65",
+            "name": "recently",
+            "username": "arge342d",
+            "archived": false
+        },
+        "currency": "RUB",
+        "amount": 88.0,
+        "description": "eclark",
+        "username": "arge342d"
+    }
+]

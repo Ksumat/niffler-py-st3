@@ -1,0 +1,16 @@
+[
+    {
+        "id": "aab04d96-5098-4dae-853c-4d6d25abdb78",
+        "spendDate": "2026-03-27T21:00:00.000+00:00",
+        "category": {
+            "id": "d8996de2-c2a2-4511-82a4-371ffa9dd140",
+            "name": "Make",
+            "username": "arge342d",
+            "archived": false
+        },
+        "currency": "KZT",
+        "amount": 8861.64,
+        "description": "Decade prepare figure conference",
+        "username": "arge342d"
+    }
+]
