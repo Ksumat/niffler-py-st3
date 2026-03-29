@@ -133,7 +133,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: gh-pages/history
+          publish_dir: niffler-e-2-e-tests-python/allure-report
           keep_files: true
 
       # 14. Загрузка Allure-отчёта как артефакт
